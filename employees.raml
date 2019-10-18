@@ -1,0 +1,71 @@
+#%RAML 1.0
+title: Employees API
+mediaType: application/json
+baseUri: http://127.0.0.1:5000
+version: 1.0
+types:
+    Employee: |
+        {
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "required": true
+                },
+                "first_name": {
+                    "type": "string",
+                    "required": true
+                },
+                "last_name": {
+                    "type": "string",
+                    "required": true
+                },
+                "gender": {
+                    "type": "string",
+                    "required": true
+                },
+                "birth_date": {
+                    "type": "string",
+                    "required": true
+                },
+                "thumbImage": {
+                    "type": "string", # Base64 (UTF-8) encoded string
+                    "required": false
+                },
+                "image": {
+                    "type": "string", # Base64 (UTF-8) encoded string
+                    "required": false
+                },
+            }
+        }
+
+/healthCheck:
+    get:
+        responses:
+            200:
+                application/json:
+                    type: object
+                    properties:
+                        message: string
+                    example:
+                        message: "Ok"
+
+/employees:
+    get:
+        responses:
+            200:
+                body:
+                    properties:
+                        people: Employee[]
+    /{id}:
+        get:
+            responses:
+                200:
+                    body:
+                        properties:
+                            Employee
+                404:
+                    body:
+                        properties:
+                            message: string
+                        example:
+                            message: "Not found"
